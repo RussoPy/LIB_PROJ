@@ -1,0 +1,143 @@
+/* General page styling */
+body {
+    background-color: #f9f9f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: #1e3a8a;
+}
+
+.navbar-brand {
+    font-size: 1.9rem;
+    color: #fff !important;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    color: #fff !important;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffd700 !important;
+    background-color: #1c2a4e;
+    border-radius: 5px;
+}
+
+/* Container and Card styling */
+.container {
+    margin-top: 40px;
+}
+
+.card {
+    margin: 20px;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #003366;
+    color: #ffd700;
+    font-size: 1.5rem;
+    border-radius: 12px 12px 0 0;
+    font-weight: bold;
+}
+
+.card-body {
+    padding: 10px;
+    color: #333;
+}
+
+.card-title {
+    font-size: 1.8rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+/* Dropdown styling */
+.dropdown-item:hover {
+    background-color: #1e3a8a;
+    color: #fff;
+}
+
+/* Button styling */
+.btn-custom {
+    background-color: #ffd700;
+    color: #003366;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+}
+
+.btn-custom:hover {
+    background-color: #ffcc00;
+    color: #fff;
+}
+
+/* Footer styling */
+footer {
+    background-color: #003366;
+    color: #ffd700;
+    padding: 20px;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 1rem;
+}
+
+/* Content section styling */
+#content {
+    margin-top: 30px;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    text-align: center;
+    padding: 12px;
+    font-size: 1.1rem;
+}
+
+th {
+    background-color: #003366;
+    color: #13120b;
+}
+
+td {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+}
+
+td:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+td:hover {
+    background-color: #f1f1f1;
+}
+
+tr:hover td {
+    background-color: #e1e1e1;
+}
+
+tr {
+    cursor: pointer;
+}
+
+/* Optional hover effect on rows */
+table tbody tr:hover {
+    background-color: #e1e1e1;
+}
