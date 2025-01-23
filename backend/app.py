@@ -30,9 +30,6 @@ register_book_routes(app)
 register_customer_routes(app)
 register_loan_routes(app)
 
-@app.route('/')
-def home():
-    return {"message": "Welcome to the Library Management System"}
 
 if __name__ == '__main__':
     create_database(app)

@@ -5,20 +5,22 @@ from models import Loan, Book, Customer, db
 def register_loan_routes(app):
     @app.route('/loans', methods=['GET'])
     def get_loans():
-        loans = Loan.query.all()  # Get all loans
-        loan_list = []
+        filter_active = request.args.get('active')  # Optional query parameter
+        if filter_active == 'true':
+            loans = Loan.query.filter_by(active=True).all()  # Active loans
+        else:
+            loans = Loan.query.all()  # All loans
 
+        loan_list = []
         for loan in loans:
-            # Query the database to fetch customer and book names using IDs
             customer = Customer.query.get(loan.cust_id)
             book = Book.query.get(loan.book_id)
 
-            # Prepare the loan data with names instead of IDs
             loan_data = {
                 'cust_id': loan.cust_id,
                 'book_id': loan.book_id,
-                'customer_name': customer.name if customer else "Unknown",  # Fetch customer name
-                'book_name': book.name if book else "Unknown",              # Fetch book name
+                'customer_name': customer.name if customer else "Unknown",
+                'book_name': book.name if book else "Unknown",
                 'loan_date': loan.loan_date.strftime('%Y-%m-%d'),
                 'return_date': loan.return_date.strftime('%Y-%m-%d') if loan.return_date else None,
                 'active': loan.active
@@ -63,22 +65,26 @@ def register_loan_routes(app):
         db.session.commit()
         return jsonify({"message": "Loan marked as returned!"})
 
-    from datetime import datetime
+    
 
     @app.route('/loans/late', methods=['GET'])
     def late():
         today = datetime.today().date()  # Get today's date
+        print(f"today is ------------------    {today}")
         late_loans = Loan.query.filter(
-        Loan.active == True,  # Ensure the loan is active
-        Loan.return_date < today  # Ensure the return_date has passed today
-    ).all()
-
-    # Return the late loans in the desired format
+            Loan.active == True,  # Ensure the loan is active
+            Loan.return_date < today  # Ensure the return_date has passed
+        ).all()
+        print(f"Today's Date: {today}")
+        print(f"Late Loans Query: {late_loans}")
+        # Return the late loans in the desired format
         return jsonify([{
             "cust_id": loan.cust_id,
             "book_id": loan.book_id,
+            "customer_name": loan.customer.name if loan.customer else "Unknown",
+            "book_name": loan.book.name if loan.book else "Unknown",
             "loan_date": loan.loan_date.strftime('%Y-%m-%d'),
-            "return_date": loan.return_date.strftime('%Y-%m-%d') if loan.return_date else None,
+            "return_date": loan.return_date.strftime('%Y-%m-%d'),
             "active": loan.active
         } for loan in late_loans])
 
@@ -112,4 +118,36 @@ def register_loan_routes(app):
         db.session.commit()
 
         return jsonify({"message": "Loan updated successfully!"})
+    
+    @app.route('/loans/search', methods=['GET'])
+    def search_loans():
+        customer_name = request.args.get('customer_name')
+        book_name = request.args.get('book_name')
+        
+        query = Loan.query
+
+        if customer_name:
+            query = query.join(Customer).filter(Customer.name.ilike(f"%{customer_name}%"))
+        
+        if book_name:
+            query = query.join(Book).filter(Book.name.ilike(f"%{book_name}%"))
+        
+        loans = query.all()
+        
+        loan_list = []
+        for loan in loans:
+            customer = Customer.query.get(loan.cust_id)
+            book = Book.query.get(loan.book_id)
+            loan_data = {
+                'cust_id': loan.cust_id,
+                'book_id': loan.book_id,
+                'customer_name': customer.name if customer else "Unknown",
+                'book_name': book.name if book else "Unknown",
+                'loan_date': loan.loan_date.strftime('%Y-%m-%d'),
+                'return_date': loan.return_date.strftime('%Y-%m-%d') if loan.return_date else None,
+                'active': loan.active
+            }
+            loan_list.append(loan_data)
+
+        return jsonify(loan_list)
 
