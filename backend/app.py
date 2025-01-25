@@ -1,6 +1,6 @@
 import sys
 from flask import Flask, request
-from flask_cors import CORS  # type: ignore
+from flask_cors import CORS 
 from loguru import logger
 from models import db
 from utils import create_database
